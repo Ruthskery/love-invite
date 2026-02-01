@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dwight & Carmela Valentine Celebration</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Floating Hearts Background -->
+  <div class="hearts"></div>
+
+  <!-- Music Autoplay -->
+  <audio autoplay loop id="bgMusic">
+    <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_c8c8a73467.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Book Container -->
+  <div class="book-container" id="bookContainer">
+    <!-- Left Cover -->
+    <div class="book-cover left-cover">
+      <div class="cover-content">
+        <h1>You're Invited</h1>
+        <div class="heart-icon">💖</div>
+        <p>Open to reveal</p>
+      </div>
+    </div>
+
+    <!-- Right Cover -->
+    <div class="book-cover right-cover">
+      <div class="cover-content">
+        <h1>You're Invited</h1>
+        <div class="heart-icon">💖</div>
+        <p>Open to reveal</p>
+      </div>
+    </div>
+
+    <!-- Book Pages (Invitation Card) -->
+    <div class="book-pages">
+      <div class="card" id="card">
+        <!-- Photo Section -->
+        <div class="photo-container">
+          <div class="photo-frame">
+            <img id="couplePhoto" src="couple-photo.jpg" alt="Dwight & Carmela" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="photo-placeholder">
+              <div class="placeholder-content">
+                <span class="camera-icon">📷</span>
+                <p>Add your photo as "couple-photo.jpg"</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h1>Dwight & Carmela</h1>
+        <h2>Valentine Celebration 💖</h2>
+
+        <div class="details">
+          <p><span class="label">📅 Date:</span> February 10</p>
+          <p><sapn class="label">⏰ Time:</sapn> 5:00 PM</p>
+          <p><span class="label">📍 Venue:</span> The Manila Peninsula, Makati</p>
+          <p><span class="label">👗 Attire:</span> Your Most Elegant Look</p>
+        </div>
+
+        <div class="buttons">
+          <button class="yes" onclick="sayYes()">Yes 💘</button>
+          <button class="ofcourse" onclick="sayOfCourse()">Of course 😘</button>
+        </div>
+
+        <p class="footer">An evening of elegance, love, and unforgettable moments ✨</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Click anywhere message -->
+  <div class="click-message" id="clickMessage">
+    Click anywhere to open 💌
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
