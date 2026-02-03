@@ -19,35 +19,35 @@ function createHeart() {
 
 setInterval(createHeart, 300);
 
-// Book Opening Animation
-const bookContainer = document.getElementById("bookContainer");
+// Envelope Opening Animation
+const envelopeContainer = document.getElementById("envelopeMainContainer");
 const clickMessage = document.getElementById("clickMessage");
 let isOpened = false;
 
-// Add hover effect to book container
-bookContainer.addEventListener('mouseenter', function() {
+// Add hover effect to envelope container
+envelopeContainer.addEventListener('mouseenter', function() {
   if (!isOpened) {
     this.style.transform = 'scale(1.02)';
   }
 });
 
-bookContainer.addEventListener('mouseleave', function() {
+envelopeContainer.addEventListener('mouseleave', function() {
   if (!isOpened) {
     this.style.transform = 'scale(1)';
   }
 });
 
-// Open book on click anywhere
-document.addEventListener("click", function openBook(e) {
+// Open envelope on click anywhere
+document.addEventListener("click", function openEnvelope(e) {
   // Don't open if clicking on buttons inside the card
   if (e.target.tagName === 'BUTTON') return;
   
   if (!isOpened) {
     // Add a subtle shake effect before opening
-    bookContainer.style.animation = 'bookShake 0.3s ease';
+    envelopeContainer.style.animation = 'envelopeShake 0.3s ease';
     
     setTimeout(() => {
-      bookContainer.classList.add("opened");
+      envelopeContainer.classList.add("opened");
       clickMessage.style.display = "none";
       isOpened = true;
       
@@ -56,20 +56,20 @@ document.addEventListener("click", function openBook(e) {
     }, 300);
     
     // Remove this event listener after opening
-    document.removeEventListener("click", openBook);
+    document.removeEventListener("click", openEnvelope);
   }
 });
 
 // Add shake animation to CSS
 const style = document.createElement('style');
 style.textContent = `
-  @keyframes bookShake {
+  @keyframes envelopeShake {
     0%, 100% { transform: rotate(0deg); }
     25% { transform: rotate(-2deg); }
     75% { transform: rotate(2deg); }
   }
   
-  .book-container {
+  .envelope-main-container {
     transition: transform 0.3s ease;
   }
 `;
@@ -117,6 +117,9 @@ document.head.appendChild(sparkleStyle);
 
 // Button Actions
 function sayYes() {
+  // Store flag in sessionStorage before transition
+  sessionStorage.setItem('returning', 'true');
+  
   // Add fade out effect before transition
   document.body.style.transition = 'opacity 0.5s ease';
   document.body.style.opacity = '0';
@@ -129,6 +132,9 @@ function sayYes() {
 }
 
 function sayOfCourse() {
+  // Store flag in sessionStorage before transition
+  sessionStorage.setItem('returning', 'true');
+  
   // Add fade out effect before transition
   document.body.style.transition = 'opacity 0.5s ease';
   document.body.style.opacity = '0';
@@ -138,6 +144,11 @@ function sayOfCourse() {
     document.body.style.opacity = '1';
     initializeOfCoursePage();
   }, 500);
+}
+
+// Function to go back to invitation
+function goBackToInvitation() {
+  window.location.reload();
 }
 
 function getYesPageHTML() {
@@ -236,7 +247,7 @@ function getYesPageHTML() {
         
         .content-box {
           background: linear-gradient(to bottom, #ffffff 0%, #fff5f7 100%);
-          padding: 50px 60px;
+          padding: 35px 45px;
           border-radius: 30px;
           box-shadow: 
             0 20px 60px rgba(214, 51, 132, 0.3),
@@ -245,7 +256,8 @@ function getYesPageHTML() {
           animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
           position: relative;
           z-index: 10;
-          max-width: 90%;
+          max-width: 550px;
+          width: 90%;
           border: 2px solid rgba(255, 182, 193, 0.3);
         }
         
@@ -264,15 +276,15 @@ function getYesPageHTML() {
         }
         
         .emoji-celebration {
-          font-size: 80px;
+          font-size: 70px;
           animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.3s backwards;
-          margin-bottom: 20px;
+          margin-bottom: 15px;
           filter: drop-shadow(0 4px 8px rgba(255, 105, 180, 0.3));
         }
         
         .main-heading {
-          font-size: 56px;
-          margin: 0 0 15px 0;
+          font-size: 48px;
+          margin: 0 0 12px 0;
           animation: scaleIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.5s backwards;
           background: linear-gradient(135deg, #d63384 0%, #ff4d88 50%, #ff85a2 100%);
           -webkit-background-clip: text;
@@ -282,8 +294,8 @@ function getYesPageHTML() {
         }
         
         .sub-heading {
-          font-size: 32px;
-          margin: 0 0 20px 0;
+          font-size: 26px;
+          margin: 0 0 18px 0;
           background: linear-gradient(90deg, #ff69b4, #ff85a2);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
@@ -292,16 +304,16 @@ function getYesPageHTML() {
         }
         
         .details-text {
-          font-size: 20px;
+          font-size: 18px;
           color: #666;
-          margin: 20px 0;
+          margin: 15px 0;
           animation: fadeIn 0.8s ease 0.9s backwards;
           text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
         }
         
         .countdown-section {
-          margin: 25px 0;
-          padding: 20px;
+          margin: 20px 0;
+          padding: 18px;
           background: linear-gradient(135deg, #ffe4e1 0%, #ffc0cb 100%);
           border-radius: 15px;
           animation: slideInRight 0.8s ease 1.1s backwards;
@@ -312,15 +324,15 @@ function getYesPageHTML() {
         }
         
         .countdown-label {
-          font-size: 14px;
+          font-size: 13px;
           color: #c2185b;
           font-weight: bold;
-          margin-bottom: 10px;
+          margin-bottom: 8px;
           letter-spacing: 1px;
         }
         
         .countdown-timer {
-          font-size: 36px;
+          font-size: 32px;
           background: linear-gradient(135deg, #d63384, #ff4d88);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
@@ -331,17 +343,17 @@ function getYesPageHTML() {
         }
         
         .button-group {
-          margin-top: 30px;
+          margin-top: 25px;
           animation: fadeIn 0.8s ease 1.3s backwards;
         }
         
         .restart-btn {
-          padding: 15px 35px;
+          padding: 13px 32px;
           background: linear-gradient(135deg, #ff4d88 0%, #ff6b9d 50%, #ff85a2 100%);
           color: white;
           border: none;
           border-radius: 30px;
-          font-size: 16px;
+          font-size: 15px;
           cursor: pointer;
           transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
           box-shadow: 
@@ -390,6 +402,7 @@ function getYesPageHTML() {
         @media (max-width: 768px) {
           .content-box {
             padding: 35px 30px;
+            max-width: 90%;
           }
           .main-heading {
             font-size: 40px;
@@ -410,6 +423,11 @@ function getYesPageHTML() {
       </style>
     </head>
     <body>
+      <script>
+        function goBackToInvitation() {
+          window.location.reload();
+        }
+      </script>
       <div class="response-container">
         <div class="content-box">
           <div class="emoji-celebration">🎉💖🎊</div>
@@ -423,18 +441,12 @@ function getYesPageHTML() {
           
           <div class="countdown-section">
             <div class="countdown-label">DAYS UNTIL OUR DATE</div>
-            <div class="countdown-timer" id="countdown">9</div>
+            <div class="countdown-timer" id="countdown">7</div>
           </div>
           
           <p class="details-text" style="font-style: italic; color: #ff69b4;">
             Get ready for an unforgettable evening! ✨
           </p>
-          
-          <div class="button-group">
-            <button class="restart-btn" onclick="window.location.href = window.location.href.split('?')[0]">
-              ← Back to Invitation
-            </button>
-          </div>
         </div>
       </div>
     </body>
@@ -539,7 +551,7 @@ function getOfCoursePageHTML() {
         
         .content-box {
           background: linear-gradient(to bottom, #ffffff 0%, #fff5f7 100%);
-          padding: 50px 60px;
+          padding: 35px 45px;
           border-radius: 30px;
           box-shadow: 
             0 20px 60px rgba(214, 51, 132, 0.3),
@@ -548,7 +560,8 @@ function getOfCoursePageHTML() {
           animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
           position: relative;
           z-index: 10;
-          max-width: 90%;
+          max-width: 550px;
+          width: 90%;
           border: 2px solid rgba(255, 182, 193, 0.3);
         }
         
@@ -567,15 +580,15 @@ function getOfCoursePageHTML() {
         }
         
         .emoji-celebration {
-          font-size: 80px;
+          font-size: 70px;
           animation: wiggle 1s ease infinite;
-          margin-bottom: 20px;
+          margin-bottom: 15px;
           filter: drop-shadow(0 4px 8px rgba(255, 105, 180, 0.3));
         }
         
         .main-heading {
-          font-size: 56px;
-          margin: 0 0 15px 0;
+          font-size: 48px;
+          margin: 0 0 12px 0;
           animation: scaleIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.5s backwards;
           background: linear-gradient(135deg, #d63384 0%, #ff4d88 50%, #ff85a2 100%);
           -webkit-background-clip: text;
@@ -585,8 +598,8 @@ function getOfCoursePageHTML() {
         }
         
         .sub-heading {
-          font-size: 32px;
-          margin: 0 0 20px 0;
+          font-size: 26px;
+          margin: 0 0 18px 0;
           background: linear-gradient(90deg, #ff69b4, #ff85a2);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
@@ -595,16 +608,16 @@ function getOfCoursePageHTML() {
         }
         
         .details-text {
-          font-size: 20px;
+          font-size: 17px;
           color: #666;
-          margin: 20px 0;
+          margin: 15px 0;
           animation: fadeIn 0.8s ease 0.9s backwards;
           text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
         }
         
         .info-box {
-          margin: 25px 0;
-          padding: 25px;
+          margin: 20px 0;
+          padding: 20px;
           background: linear-gradient(135deg, #ffe4e1 0%, #ffc0cb 100%);
           border-radius: 15px;
           animation: slideInRight 0.8s ease 1.1s backwards;
@@ -616,15 +629,15 @@ function getOfCoursePageHTML() {
         
         .info-box h3 {
           color: #c2185b;
-          font-size: 18px;
-          margin: 0 0 15px 0;
+          font-size: 16px;
+          margin: 0 0 12px 0;
           letter-spacing: 1px;
           animation: fadeIn 0.6s ease 1.3s backwards;
         }
         
         .info-box p {
-          margin: 8px 0;
-          font-size: 16px;
+          margin: 6px 0;
+          font-size: 15px;
           background: linear-gradient(90deg, #d63384, #ff4d88);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
@@ -633,17 +646,17 @@ function getOfCoursePageHTML() {
         }
         
         .button-group {
-          margin-top: 30px;
+          margin-top: 22px;
           animation: fadeIn 0.8s ease 1.5s backwards;
         }
         
         .restart-btn {
-          padding: 15px 35px;
+          padding: 13px 32px;
           background: linear-gradient(135deg, #ff4d88 0%, #ff6b9d 50%, #ff85a2 100%);
           color: white;
           border: none;
           border-radius: 30px;
-          font-size: 16px;
+          font-size: 15px;
           cursor: pointer;
           transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
           box-shadow: 
@@ -691,6 +704,7 @@ function getOfCoursePageHTML() {
         @media (max-width: 768px) {
           .content-box {
             padding: 35px 30px;
+            max-width: 90%;
           }
           .main-heading {
             font-size: 40px;
@@ -711,6 +725,11 @@ function getOfCoursePageHTML() {
       </style>
     </head>
     <body>
+      <script>
+        function goBackToInvitation() {
+          window.location.reload();
+        }
+      </script>
       <div class="response-container">
         <div class="content-box">
           <div class="emoji-celebration">😘💕</div>
@@ -720,7 +739,7 @@ function getOfCoursePageHTML() {
           <div class="info-box">
             <h3>✨ SAVE THE DATE ✨</h3>
             <p><strong>📅 February 10, 2026</strong></p>
-            <p><strong>⏰ 5:00 PM Sharp</strong></p>
+            <p><strong>⏰ 5:00 PM </strong></p>
             <p><strong>📍 The Manila Peninsula, Makati</strong></p>
             <p><strong>👗 Formal Attire</strong></p>
           </div>
@@ -732,12 +751,6 @@ function getOfCoursePageHTML() {
           <p class="details-text" style="font-size: 16px; color: #999;">
             Can't wait to see you all dressed up! 😍
           </p>
-          
-          <div class="button-group">
-            <button class="restart-btn" onclick="window.location.href = window.location.href.split('?')[0]">
-              ← Back to Invitation
-            </button>
-          </div>
         </div>
       </div>
     </body>

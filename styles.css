@@ -6,8 +6,12 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   perspective: 2000px;
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background-color: lightpink;
 }
 
 /* Click Message */
@@ -29,33 +33,52 @@ body {
   50% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.05); }
 }
 
-/* Book Container */
-.book-container {
+/* Main Envelope Container */
+.envelope-main-container {
   position: relative;
   width: 600px;
-  height: 450px;
+  height: 400px;
   cursor: pointer;
-  transform-style: preserve-3d;
   z-index: 5;
+  transition: transform 0.3s ease;
+  perspective: 1000px;
 }
 
-/* Book Covers */
-.book-cover {
+/* Envelope Wrapper */
+.envelope-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+/* Envelope Back */
+.envelope-back {
   position: absolute;
-  width: 300px;
-  height: 450px;
+  width: 100%;
+  height: 100%;
   background: linear-gradient(135deg, #d63384, #ff4d88);
   border-radius: 10px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+
+/* Envelope Front */
+.envelope-front {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #ff4d88, #ff85a2);
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
+  z-index: 3;
+  transition: transform 0.8s ease;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
 }
 
-.book-cover::before {
+.envelope-front::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -65,37 +88,55 @@ body {
   transition: opacity 0.5s ease;
 }
 
-.book-cover:hover::before {
+.envelope-front:hover::before {
   opacity: 1;
 }
 
-.left-cover {
+/* Envelope Top Flap */
+.envelope-flap-main {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 300px solid transparent;
+  border-right: 300px solid transparent;
+  border-top: 200px solid #d63384;
+  top: 0;
   left: 0;
-  transform-origin: right center;
-  border-right: 3px solid #a0225f;
+  z-index: 4;
+  transform-origin: top center;
+  transition: transform 1s ease;
+  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
 }
 
-.right-cover {
-  right: 0;
-  transform-origin: left center;
-  border-left: 3px solid #a0225f;
+.envelope-flap-main::before {
+  content: '';
+  position: absolute;
+  top: -200px;
+  left: -300px;
+  width: 600px;
+  height: 200px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), transparent);
+  pointer-events: none;
 }
 
-.cover-content {
+/* Envelope Content */
+.envelope-content {
   text-align: center;
   color: white;
   padding: 20px;
+  z-index: 2;
 }
 
-.cover-content h1 {
-  font-size: 32px;
+.envelope-content h1 {
+  font-size: 42px;
   margin: 0 0 20px 0;
   color: white;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  font-weight: 700;
 }
 
 .heart-icon {
-  font-size: 60px;
+  font-size: 80px;
   animation: heartbeat 1.5s infinite;
 }
 
@@ -104,56 +145,61 @@ body {
   25% { transform: scale(1.1); }
 }
 
-.cover-content p {
+.envelope-content p {
   margin-top: 20px;
-  font-size: 14px;
-  opacity: 0.9;
+  font-size: 18px;
+  opacity: 0.95;
+  font-weight: 300;
 }
 
-/* Book Pages (Card Inside) */
-.book-pages {
+/* Invitation Card (Hidden initially) */
+.invitation-card {
   position: absolute;
-  width: 600px;
-  height: 450px;
-  left: 0;
+  width: 100%;
+  height: 100%;
   top: 0;
+  left: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transition: opacity 0.5s ease 1s;
+  pointer-events: none;
+  transition: opacity 0.8s ease 0.6s;
+  z-index: 2;
 }
 
 /* Opened State */
-.book-container.opened .left-cover {
-  transform: rotateY(-165deg);
+.envelope-main-container.opened .envelope-flap-main {
+  transform: rotateX(-180deg);
 }
 
-.book-container.opened .right-cover {
-  transform: rotateY(165deg);
+.envelope-main-container.opened .envelope-front {
+  transform: translateY(-100%);
+  opacity: 0;
 }
 
-.book-container.opened .book-pages {
+.envelope-main-container.opened .invitation-card {
   opacity: 1;
+  pointer-events: auto;
+  z-index: 10;
 }
 
-.book-container.opened .click-message {
+.envelope-main-container.opened .click-message {
   display: none;
 }
 
 /* Card Animation */
 .card {
   background: white;
-  padding: 40px;
+  padding: 30px;
   border-radius: 25px;
   text-align: center;
   width: 90%;
-  max-width: 520px;
+  max-width: 500px;
   box-shadow: 0 20px 60px rgba(255, 105, 180, 0.4);
   animation: fadePop 1.2s ease 1.5s backwards;
   position: relative;
   z-index: 2;
-  overflow: hidden;
 }
 
 .card::before {
@@ -171,6 +217,7 @@ body {
   );
   transform: rotate(45deg);
   animation: shine 3s infinite;
+  pointer-events: none;
 }
 
 @keyframes shine {
@@ -184,20 +231,25 @@ body {
 
 /* Photo Container */
 .photo-container {
-  margin-bottom: 25px;
+  margin-bottom: 15px;
   display: flex;
   justify-content: center;
 }
 
 .photo-frame {
-  width: 180px;
-  height: 180px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   overflow: hidden;
-  border: 5px solid #ff85a2;
+  border: 4px solid #ff85a2;
   box-shadow: 0 8px 25px rgba(255, 105, 180, 0.4);
   position: relative;
   animation: photoGlow 2s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+
+.photo-frame:hover {
+  transform: scale(1.05);
 }
 
 @keyframes photoGlow {
@@ -249,18 +301,28 @@ body {
 h1 {
   color: #d63384;
   margin-bottom: 5px;
+  font-size: 28px;
+  font-weight: 700;
 }
 
 h2 {
-  font-weight: normal;
+  font-weight: 400;
   color: #ff69b4;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
+  font-size: 18px;
 }
 
 .details {
   text-align: left;
-  margin: 20px 0;
+  margin: 15px 0;
   line-height: 1.8;
+  padding: 0 10px;
+}
+
+.details p {
+  margin: 6px 0;
+  color: #555;
+  font-size: 14px;
 }
 
 .label {
@@ -269,19 +331,24 @@ h2 {
 }
 
 .buttons {
-  margin-top: 20px;
+  margin-top: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
 }
 
 button {
   border: none;
-  padding: 12px 22px;
-  margin: 8px;
+  padding: 12px 28px;
   border-radius: 30px;
-  font-size: 16px;
+  font-size: 15px;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   position: relative;
   overflow: hidden;
+  font-family: 'Poppins', sans-serif;
 }
 
 button::before {
@@ -302,6 +369,11 @@ button:hover::before {
   height: 300px;
 }
 
+button:focus {
+  outline: 2px solid #ff85a2;
+  outline-offset: 2px;
+}
+
 .yes {
   background: linear-gradient(135deg, #ff4d88, #ff1f73);
   color: white;
@@ -315,18 +387,20 @@ button:hover::before {
 }
 
 button:hover {
-  transform: scale(1.1) translateY(-2px);
+  transform: scale(1.05) translateY(-2px);
   box-shadow: 0 8px 25px rgba(255, 77, 136, 0.6);
 }
 
 button:active {
-  transform: scale(1.05) translateY(0);
+  transform: scale(1) translateY(0);
 }
 
 .footer {
   margin-top: 15px;
-  font-size: 13px;
-  color: #888;
+  font-size: 12px;
+  color: #999;
+  font-style: italic;
+  line-height: 1.4;
 }
 
 /* Floating Hearts */
@@ -338,6 +412,7 @@ button:active {
   top: 0;
   left: 0;
   z-index: 0;
+  background-color: lightpink;
 }
 
 .heart {
@@ -355,26 +430,28 @@ button:active {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .book-container {
+  .envelope-main-container {
     width: 90vw;
-    height: 400px;
+    max-width: 500px;
+    height: 350px;
   }
 
-  .book-cover {
-    width: 45vw;
-    height: 400px;
+  .envelope-flap-main {
+    border-left: 45vw solid transparent;
+    border-right: 45vw solid transparent;
+    border-top: 175px solid #d63384;
   }
 
-  .book-pages {
-    width: 90vw;
-  }
-
-  .cover-content h1 {
-    font-size: 24px;
+  .envelope-content h1 {
+    font-size: 32px;
   }
 
   .heart-icon {
-    font-size: 40px;
+    font-size: 60px;
+  }
+
+  .envelope-content p {
+    font-size: 16px;
   }
 
   .card {
@@ -383,8 +460,8 @@ button:active {
   }
 
   .photo-frame {
-    width: 140px;
-    height: 140px;
+    width: 130px;
+    height: 130px;
     border: 4px solid #ff85a2;
   }
 
@@ -406,12 +483,16 @@ button:active {
 
   .details {
     font-size: 14px;
+    padding: 0 5px;
+  }
+
+  .details p {
+    font-size: 14px;
   }
 
   button {
-    padding: 10px 18px;
-    font-size: 14px;
-    margin: 5px;
+    padding: 12px 24px;
+    font-size: 15px;
   }
 
   .footer {
@@ -424,22 +505,28 @@ button:active {
 }
 
 @media (max-width: 480px) {
-  .book-container {
+  .envelope-main-container {
     width: 95vw;
-    height: 380px;
+    max-width: 400px;
+    height: 300px;
   }
 
-  .book-cover {
-    width: 47.5vw;
-    height: 380px;
+  .envelope-flap-main {
+    border-left: 47.5vw solid transparent;
+    border-right: 47.5vw solid transparent;
+    border-top: 150px solid #d63384;
   }
 
-  .cover-content h1 {
-    font-size: 20px;
+  .envelope-content h1 {
+    font-size: 26px;
   }
 
   .heart-icon {
-    font-size: 35px;
+    font-size: 50px;
+  }
+
+  .envelope-content p {
+    font-size: 14px;
   }
 
   .card {
@@ -447,8 +534,8 @@ button:active {
   }
 
   .photo-frame {
-    width: 120px;
-    height: 120px;
+    width: 110px;
+    height: 110px;
   }
 
   h1 {
@@ -463,8 +550,12 @@ button:active {
     font-size: 13px;
   }
 
-  button {
-    padding: 8px 15px;
+  .details p {
     font-size: 13px;
+  }
+
+  button {
+    padding: 10px 20px;
+    font-size: 14px;
   }
 }
