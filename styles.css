@@ -28,6 +28,44 @@ body {
   pointer-events: none;
 }
 
+/* Music Control Button */
+.music-control {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff4d88, #ff85a2);
+  border: none;
+  cursor: pointer;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(255, 77, 136, 0.4);
+  transition: all 0.3s ease;
+}
+
+.music-control:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(255, 77, 136, 0.6);
+}
+
+.music-control .music-icon {
+  font-size: 24px;
+  transition: transform 0.3s ease;
+}
+
+.music-control.playing .music-icon {
+  animation: musicPulse 1s ease-in-out infinite;
+}
+
+@keyframes musicPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
 @keyframes pulse {
   0%, 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
   50% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.05); }
@@ -135,14 +173,156 @@ body {
   font-weight: 700;
 }
 
-.heart-icon {
-  font-size: 80px;
-  animation: heartbeat 1.5s infinite;
+/* Enhanced Heart Display */
+.heart-display {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.heart-icon-main {
+  font-size: 100px;
+  animation: heartbeat 1.5s ease-in-out infinite;
+  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.8))
+          drop-shadow(0 0 40px rgba(255, 182, 193, 0.6));
+  position: relative;
+  z-index: 2;
+  display: inline-block;
 }
 
 @keyframes heartbeat {
-  0%, 100% { transform: scale(1); }
-  25% { transform: scale(1.1); }
+  0%, 100% { 
+    transform: scale(1);
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.8))
+            drop-shadow(0 0 40px rgba(255, 182, 193, 0.6));
+  }
+  25% { 
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 30px rgba(255, 255, 255, 1))
+            drop-shadow(0 0 60px rgba(255, 182, 193, 0.9));
+  }
+  50% { 
+    transform: scale(1);
+  }
+  75% { 
+    transform: scale(1.1);
+  }
+}
+
+/* Glowing circle behind heart */
+.heart-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: pulse-glow 2s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { 
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.5;
+  }
+  50% { 
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+/* Floating sparkle particles */
+.heart-particles {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.heart-particles .particle {
+  position: absolute;
+  font-size: 20px;
+  animation: particle-float 3s ease-in-out infinite;
+  opacity: 0;
+}
+
+.heart-particles .particle:nth-child(1) {
+  top: -20px;
+  left: -20px;
+  animation-delay: 0s;
+}
+
+.heart-particles .particle:nth-child(2) {
+  top: -20px;
+  right: -20px;
+  animation-delay: 0.5s;
+}
+
+.heart-particles .particle:nth-child(3) {
+  bottom: -20px;
+  left: -20px;
+  animation-delay: 1s;
+}
+
+.heart-particles .particle:nth-child(4) {
+  bottom: -20px;
+  right: -20px;
+  animation-delay: 1.5s;
+}
+
+.heart-particles .particle:nth-child(5) {
+  top: 50%;
+  left: -30px;
+  animation-delay: 2s;
+}
+
+.heart-particles .particle:nth-child(6) {
+  top: 50%;
+  right: -30px;
+  animation-delay: 2.5s;
+}
+
+@keyframes particle-float {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.5);
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-30px) scale(1);
+  }
+}
+
+.envelope-subtitle {
+  margin-top: 20px;
+  font-size: 18px;
+  opacity: 0.95;
+  font-weight: 300;
+  animation: fade-in-up 1s ease-out;
+  color: white;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 0.95;
+    transform: translateY(0);
+  }
 }
 
 .envelope-content p {
@@ -430,6 +610,17 @@ button:active {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .music-control {
+    top: 15px;
+    right: 15px;
+    width: 45px;
+    height: 45px;
+  }
+  
+  .music-control .music-icon {
+    font-size: 20px;
+  }
+
   .envelope-main-container {
     width: 90vw;
     max-width: 500px;
@@ -446,11 +637,17 @@ button:active {
     font-size: 32px;
   }
 
-  .heart-icon {
-    font-size: 60px;
+  .heart-icon-main {
+    font-size: 80px;
+  }
+  
+  .heart-glow {
+    width: 120px;
+    height: 120px;
   }
 
-  .envelope-content p {
+  .envelope-content p,
+  .envelope-subtitle {
     font-size: 16px;
   }
 
@@ -505,6 +702,17 @@ button:active {
 }
 
 @media (max-width: 480px) {
+  .music-control {
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+  }
+  
+  .music-control .music-icon {
+    font-size: 18px;
+  }
+
   .envelope-main-container {
     width: 95vw;
     max-width: 400px;
@@ -521,11 +729,17 @@ button:active {
     font-size: 26px;
   }
 
-  .heart-icon {
-    font-size: 50px;
+  .heart-icon-main {
+    font-size: 70px;
+  }
+  
+  .heart-glow {
+    width: 100px;
+    height: 100px;
   }
 
-  .envelope-content p {
+  .envelope-content p,
+  .envelope-subtitle {
     font-size: 14px;
   }
 

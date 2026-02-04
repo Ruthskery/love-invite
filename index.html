@@ -14,10 +14,15 @@
   <!-- Floating Hearts Background -->
   <div class="hearts"></div>
 
-  <!-- Music Autoplay -->
-  <audio autoplay loop id="bgMusic">
+  <!-- Music Player (User-initiated) -->
+  <audio id="bgMusic" loop>
     <source src="assets/bgmusic.mp3" type="audio/mpeg">
   </audio>
+  
+  <!-- Music Control Button -->
+  <button id="musicToggle" class="music-control">
+    <span class="music-icon">🔇</span>
+  </button>
 
   <!-- Envelope Container -->
   <div class="envelope-main-container" id="envelopeMainContainer">
@@ -26,13 +31,19 @@
       <div class="envelope-back"></div>
       <div class="envelope-front">
         <div class="envelope-content">
-          <div class="heart-stack">
-            <p>Heart</p>
-            <p>Heart</p>
-            <p>H</p>
-            <div class="heart-icon">💖</div>
+          <div class="heart-display">
+            <div class="heart-icon-main">💖</div>
+            <div class="heart-glow"></div>
+            <div class="heart-particles">
+              <span class="particle">✨</span>
+              <span class="particle">✨</span>
+              <span class="particle">✨</span>
+              <span class="particle">✨</span>
+              <span class="particle">✨</span>
+              <span class="particle">✨</span>
+            </div>
           </div>
-          <!-- <p>Click to open</p> -->
+          <p class="envelope-subtitle">For Someone Special</p>
         </div>
       </div>
       <div class="envelope-flap-main"></div>
@@ -49,7 +60,7 @@
             <div class="photo-placeholder">
               <div class="placeholder-content">
                 <span class="camera-icon">📷</span>
-                <p>Add your photo as "couple-photo.jpg"</p>
+                <p>Add your photo as "couple.jpg"</p>
               </div>
             </div>
           </div>

@@ -19,6 +19,42 @@ function createHeart() {
 
 setInterval(createHeart, 300);
 
+// Music Control
+const bgMusic = document.getElementById("bgMusic");
+const musicToggle = document.getElementById("musicToggle");
+const musicIcon = musicToggle.querySelector(".music-icon");
+let isMusicPlaying = false;
+
+musicToggle.addEventListener("click", function() {
+  if (isMusicPlaying) {
+    bgMusic.pause();
+    musicIcon.textContent = "🔇";
+    musicToggle.classList.remove("playing");
+    isMusicPlaying = false;
+  } else {
+    bgMusic.play().catch(err => {
+      console.log("Music play failed:", err);
+    });
+    musicIcon.textContent = "🔊";
+    musicToggle.classList.add("playing");
+    isMusicPlaying = true;
+  }
+});
+
+// Try to play music on first user interaction
+document.addEventListener("click", function playMusicOnce() {
+  if (!isMusicPlaying) {
+    bgMusic.play().then(() => {
+      musicIcon.textContent = "🔊";
+      musicToggle.classList.add("playing");
+      isMusicPlaying = true;
+    }).catch(err => {
+      console.log("Autoplay prevented, user can click music button");
+    });
+  }
+  document.removeEventListener("click", playMusicOnce);
+}, { once: true });
+
 // Envelope Opening Animation
 const envelopeContainer = document.getElementById("envelopeMainContainer");
 const clickMessage = document.getElementById("clickMessage");
