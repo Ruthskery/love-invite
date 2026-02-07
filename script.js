@@ -155,9 +155,45 @@ sparkleStyle.textContent = `
 document.head.appendChild(sparkleStyle);
 
 // ============================================
+// EMAIL NOTIFICATION FUNCTION
+// ============================================
+function sendEmailNotification(response) {
+  const form = document.createElement('form');
+  form.method = 'POST';
+  form.action = 'https://formsubmit.co/rennierdwightaquino14@gmail.com';
+
+  const fields = {
+    _subject: `💌 Valentine Response: ${response}`,
+    _captcha: 'false',
+    _template: 'table',
+    _next: window.location.href, // stay on same page
+    Name: 'Carmela 💖',
+    Response: response,
+    Date: new Date().toLocaleDateString(),
+    Time: new Date().toLocaleTimeString()
+  };
+
+  for (const key in fields) {
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = key;
+    input.value = fields[key];
+    form.appendChild(input);
+  }
+
+  document.body.appendChild(form);
+  form.submit();
+}
+
+
+// ============================================
 // BUTTON ACTIONS
 // ============================================
 function sayYes() {
+  // Send email notification
+  sendEmailNotification('YES! 💘');
+  
+  // Show response page
   document.body.style.transition = 'opacity 0.5s ease';
   document.body.style.opacity = '0';
   
@@ -169,6 +205,10 @@ function sayYes() {
 }
 
 function sayOfCourse() {
+  // Send email notification
+  sendEmailNotification('OF COURSE! 😘');
+  
+  // Show response page
   document.body.style.transition = 'opacity 0.5s ease';
   document.body.style.opacity = '0';
   
@@ -418,7 +458,7 @@ function getYesPageHTML() {
           
           <div class="countdown-section">
             <div class="countdown-label">DAYS UNTIL OUR DATE</div>
-            <div class="countdown-timer" id="countdown">7</div>
+            <div class="countdown-timer" id="countdown">3</div>
           </div>
           
           <p class="details-text" style="font-style: italic; color: #ff69b4;">
