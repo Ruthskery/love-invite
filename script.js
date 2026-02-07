@@ -157,35 +157,34 @@ document.head.appendChild(sparkleStyle);
 // ============================================
 // EMAIL NOTIFICATION FUNCTION
 // ============================================
-function sendEmailNotification(response) {
-  const form = document.createElement('form');
-  form.method = 'POST';
-  form.action = 'https://formsubmit.co/rennierdwightaquino14@gmail.com';
+async function sendEmailNotification(response) {
+  try {
+    const formData = new FormData();
+    formData.append('_subject', `💌 Valentine Response: ${response}`);
+    formData.append('_captcha', 'false');
+    formData.append('_template', 'table');
+    formData.append('Name', 'Carmela 💖');
+    formData.append('Response', response);
+    formData.append('Date', new Date().toLocaleDateString());
+    formData.append('Time', new Date().toLocaleTimeString());
 
-  const fields = {
-    _subject: `💌 Valentine Response: ${response}`,
-    _captcha: 'false',
-    _template: 'table',
-    _next: window.location.href, // stay on same page
-    Name: 'Carmela 💖',
-    Response: response,
-    Date: new Date().toLocaleDateString(),
-    Time: new Date().toLocaleTimeString()
-  };
-
-  for (const key in fields) {
-    const input = document.createElement('input');
-    input.type = 'hidden';
-    input.name = key;
-    input.value = fields[key];
-    form.appendChild(input);
+    // Send email in background without navigation
+    await fetch('https://formsubmit.co/rennierdwightaquino14@gmail.com', {
+      method: 'POST',
+      body: formData,
+      mode: 'no-cors' // This prevents CORS issues
+    });
+    
+    console.log('Email notification sent successfully');
+  } catch (error) {
+    console.log('Email notification failed:', error);
+    // Continue with the animation even if email fails
   }
-
-  document.body.appendChild(form);
-  form.submit();
 }
 
-
+// ============================================
+// BUTTON ACTIONS
+// ============================================
 // ============================================
 // BUTTON ACTIONS
 // ============================================
@@ -193,14 +192,57 @@ function sayYes() {
   // Send email notification
   sendEmailNotification('YES! 💘');
   
+  // Preserve music state
+  const musicElement = document.getElementById("bgMusic");
+  const wasMusicPlaying = !musicElement.paused;
+  
   // Show response page
   document.body.style.transition = 'opacity 0.5s ease';
   document.body.style.opacity = '0';
   
   setTimeout(() => {
     document.body.innerHTML = getYesPageHTML();
+    
+    // Restore music
+    if (wasMusicPlaying) {
+      const newMusic = document.getElementById("bgMusic");
+      if (newMusic) {
+        newMusic.currentTime = musicElement.currentTime; // Continue from same position
+        newMusic.play().catch(err => console.log("Music resume failed:", err));
+      }
+    }
+    
     document.body.style.opacity = '1';
     initializeYesPage();
+  }, 500);
+}
+
+function sayOfCourse() {
+  // Send email notification
+  sendEmailNotification('OF COURSE! 😘');
+  
+  // Preserve music state
+  const musicElement = document.getElementById("bgMusic");
+  const wasMusicPlaying = !musicElement.paused;
+  
+  // Show response page
+  document.body.style.transition = 'opacity 0.5s ease';
+  document.body.style.opacity = '0';
+  
+  setTimeout(() => {
+    document.body.innerHTML = getOfCoursePageHTML();
+    
+    // Restore music
+    if (wasMusicPlaying) {
+      const newMusic = document.getElementById("bgMusic");
+      if (newMusic) {
+        newMusic.currentTime = musicElement.currentTime; // Continue from same position
+        newMusic.play().catch(err => console.log("Music resume failed:", err));
+      }
+    }
+    
+    document.body.style.opacity = '1';
+    initializeOfCoursePage();
   }, 500);
 }
 
@@ -445,6 +487,11 @@ function getYesPageHTML() {
       </style>
     </head>
     <body>
+    
+      <audio id="bgMusic" loop>
+        <source src="assets/bgmusic.mp3" type="audio/mpeg">
+      </audio>
+
       <div class="response-container">
         <div class="content-box">
           <div class="emoji-celebration">🎉💖🎊</div>
@@ -697,6 +744,11 @@ function getOfCoursePageHTML() {
       </style>
     </head>
     <body>
+
+      <audio id="bgMusic" loop>
+        <source src="assets/bgmusic.mp3" type="audio/mpeg">
+      </audio>
+
       <div class="response-container">
         <div class="content-box">
           <div class="emoji-celebration">😘💕</div>
