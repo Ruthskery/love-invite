@@ -1,4 +1,6 @@
-// Floating hearts generator
+// ============================================
+// FLOATING HEARTS BACKGROUND GENERATOR
+// ============================================
 const heartsContainer = document.querySelector(".hearts");
 
 function createHeart() {
@@ -19,13 +21,17 @@ function createHeart() {
 
 setInterval(createHeart, 300);
 
-// Music Control
+// ============================================
+// MUSIC CONTROL
+// ============================================
 const bgMusic = document.getElementById("bgMusic");
 const musicToggle = document.getElementById("musicToggle");
 const musicIcon = musicToggle.querySelector(".music-icon");
 let isMusicPlaying = false;
 
-musicToggle.addEventListener("click", function() {
+musicToggle.addEventListener("click", function(e) {
+  e.stopPropagation();
+  
   if (isMusicPlaying) {
     bgMusic.pause();
     musicIcon.textContent = "🔇";
@@ -41,26 +47,27 @@ musicToggle.addEventListener("click", function() {
   }
 });
 
-// Try to play music on first user interaction
-document.addEventListener("click", function playMusicOnce() {
-  if (!isMusicPlaying) {
+// Auto-play music on first user interaction
+document.addEventListener("click", function playMusicOnce(e) {
+  if (!isMusicPlaying && e.target !== musicToggle && !musicToggle.contains(e.target)) {
     bgMusic.play().then(() => {
       musicIcon.textContent = "🔊";
       musicToggle.classList.add("playing");
       isMusicPlaying = true;
     }).catch(err => {
-      console.log("Autoplay prevented, user can click music button");
+      console.log("Autoplay prevented");
     });
   }
-  document.removeEventListener("click", playMusicOnce);
 }, { once: true });
 
-// Envelope Opening Animation
+// ============================================
+// ENVELOPE OPENING ANIMATION
+// ============================================
 const envelopeContainer = document.getElementById("envelopeMainContainer");
 const clickMessage = document.getElementById("clickMessage");
 let isOpened = false;
 
-// Add hover effect to envelope container
+// Hover effect
 envelopeContainer.addEventListener('mouseenter', function() {
   if (!isOpened) {
     this.style.transform = 'scale(1.02)';
@@ -73,30 +80,29 @@ envelopeContainer.addEventListener('mouseleave', function() {
   }
 });
 
-// Open envelope on click anywhere
+// Open envelope on click
 document.addEventListener("click", function openEnvelope(e) {
-  // Don't open if clicking on buttons inside the card
-  if (e.target.tagName === 'BUTTON') return;
+  if (e.target.tagName === 'BUTTON' || e.target.closest('.music-control')) {
+    return;
+  }
   
   if (!isOpened) {
-    // Add a subtle shake effect before opening
     envelopeContainer.style.animation = 'envelopeShake 0.3s ease';
     
     setTimeout(() => {
       envelopeContainer.classList.add("opened");
       clickMessage.style.display = "none";
       isOpened = true;
-      
-      // Add sparkle effect
       createSparkles(e.clientX, e.clientY);
     }, 300);
     
-    // Remove this event listener after opening
     document.removeEventListener("click", openEnvelope);
   }
 });
 
-// Add shake animation to CSS
+// ============================================
+// SHAKE ANIMATION
+// ============================================
 const style = document.createElement('style');
 style.textContent = `
   @keyframes envelopeShake {
@@ -104,14 +110,12 @@ style.textContent = `
     25% { transform: rotate(-2deg); }
     75% { transform: rotate(2deg); }
   }
-  
-  .envelope-main-container {
-    transition: transform 0.3s ease;
-  }
 `;
 document.head.appendChild(style);
 
-// Sparkle effect
+// ============================================
+// SPARKLE EFFECT
+// ============================================
 function createSparkles(x, y) {
   for (let i = 0; i < 20; i++) {
     const sparkle = document.createElement('div');
@@ -135,7 +139,6 @@ function createSparkles(x, y) {
   }
 }
 
-// Add sparkle animation
 const sparkleStyle = document.createElement('style');
 sparkleStyle.textContent = `
   @keyframes sparkleFloat {
@@ -151,12 +154,10 @@ sparkleStyle.textContent = `
 `;
 document.head.appendChild(sparkleStyle);
 
-// Button Actions
+// ============================================
+// BUTTON ACTIONS
+// ============================================
 function sayYes() {
-  // Store flag in sessionStorage before transition
-  sessionStorage.setItem('returning', 'true');
-  
-  // Add fade out effect before transition
   document.body.style.transition = 'opacity 0.5s ease';
   document.body.style.opacity = '0';
   
@@ -168,10 +169,6 @@ function sayYes() {
 }
 
 function sayOfCourse() {
-  // Store flag in sessionStorage before transition
-  sessionStorage.setItem('returning', 'true');
-  
-  // Add fade out effect before transition
   document.body.style.transition = 'opacity 0.5s ease';
   document.body.style.opacity = '0';
   
@@ -182,11 +179,9 @@ function sayOfCourse() {
   }, 500);
 }
 
-// Function to go back to invitation
-function goBackToInvitation() {
-  window.location.reload();
-}
-
+// ============================================
+// YES PAGE
+// ============================================
 function getYesPageHTML() {
   return `
     <!DOCTYPE html>
@@ -378,55 +373,6 @@ function getYesPageHTML() {
           animation: pulse 2s ease-in-out infinite;
         }
         
-        .button-group {
-          margin-top: 25px;
-          animation: fadeIn 0.8s ease 1.3s backwards;
-        }
-        
-        .restart-btn {
-          padding: 13px 32px;
-          background: linear-gradient(135deg, #ff4d88 0%, #ff6b9d 50%, #ff85a2 100%);
-          color: white;
-          border: none;
-          border-radius: 30px;
-          font-size: 15px;
-          cursor: pointer;
-          transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-          box-shadow: 
-            0 5px 15px rgba(255, 77, 136, 0.4),
-            0 2px 5px rgba(255, 77, 136, 0.2);
-          font-weight: 600;
-          margin: 0 5px;
-          position: relative;
-          overflow: hidden;
-        }
-        
-        .restart-btn::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-          transition: left 0.5s;
-        }
-        
-        .restart-btn:hover::before {
-          left: 100%;
-        }
-        
-        .restart-btn:hover {
-          transform: translateY(-3px) scale(1.05);
-          box-shadow: 
-            0 8px 25px rgba(255, 77, 136, 0.6),
-            0 4px 10px rgba(255, 77, 136, 0.3);
-        }
-        
-        .restart-btn:active {
-          transform: translateY(-1px) scale(1.02);
-        }
-        
         .heart-float {
           position: absolute;
           font-size: 30px;
@@ -459,11 +405,6 @@ function getYesPageHTML() {
       </style>
     </head>
     <body>
-      <script>
-        function goBackToInvitation() {
-          window.location.reload();
-        }
-      </script>
       <div class="response-container">
         <div class="content-box">
           <div class="emoji-celebration">🎉💖🎊</div>
@@ -490,6 +431,9 @@ function getYesPageHTML() {
   `;
 }
 
+// ============================================
+// OF COURSE PAGE
+// ============================================
 function getOfCoursePageHTML() {
   return `
     <!DOCTYPE html>
@@ -681,54 +625,6 @@ function getOfCoursePageHTML() {
           animation: fadeIn 0.6s ease 1.4s backwards;
         }
         
-        .button-group {
-          margin-top: 22px;
-          animation: fadeIn 0.8s ease 1.5s backwards;
-        }
-        
-        .restart-btn {
-          padding: 13px 32px;
-          background: linear-gradient(135deg, #ff4d88 0%, #ff6b9d 50%, #ff85a2 100%);
-          color: white;
-          border: none;
-          border-radius: 30px;
-          font-size: 15px;
-          cursor: pointer;
-          transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-          box-shadow: 
-            0 5px 15px rgba(255, 77, 136, 0.4),
-            0 2px 5px rgba(255, 77, 136, 0.2);
-          font-weight: 600;
-          position: relative;
-          overflow: hidden;
-        }
-        
-        .restart-btn::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-          transition: left 0.5s;
-        }
-        
-        .restart-btn:hover::before {
-          left: 100%;
-        }
-        
-        .restart-btn:hover {
-          transform: translateY(-3px) scale(1.05);
-          box-shadow: 
-            0 8px 25px rgba(255, 77, 136, 0.6),
-            0 4px 10px rgba(255, 77, 136, 0.3);
-        }
-        
-        .restart-btn:active {
-          transform: translateY(-1px) scale(1.02);
-        }
-        
         .heart-float {
           position: absolute;
           font-size: 30px;
@@ -761,11 +657,6 @@ function getOfCoursePageHTML() {
       </style>
     </head>
     <body>
-      <script>
-        function goBackToInvitation() {
-          window.location.reload();
-        }
-      </script>
       <div class="response-container">
         <div class="content-box">
           <div class="emoji-celebration">😘💕</div>
@@ -794,8 +685,11 @@ function getOfCoursePageHTML() {
   `;
 }
 
+// ============================================
+// INITIALIZE YES PAGE
+// ============================================
 function initializeYesPage() {
-  // Create confetti
+  // Confetti effect
   setTimeout(() => {
     const colors = ['#ff4d88', '#ff85a2', '#ffc0cb', '#d63384', '#ff69b4', '#ffe4e1'];
     for (let i = 0; i < 80; i++) {
@@ -807,15 +701,15 @@ function initializeYesPage() {
         confetti.style.left = Math.random() * 100 + 'vw';
         confetti.style.top = '-20px';
         const duration = 2 + Math.random() * 2;
-        confetti.style.animation = 'confetti-fall ' + duration + 's linear forwards';
-        confetti.style.transform = 'rotate(' + (Math.random() * 360) + 'deg)';
+        confetti.style.animation = `confetti-fall ${duration}s linear forwards`;
+        confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
         document.body.appendChild(confetti);
         setTimeout(() => confetti.remove(), 4000);
       }, i * 20);
     }
   }, 100);
   
-  // Animated floating hearts
+  // Floating hearts
   setInterval(() => {
     const heart = document.createElement('div');
     heart.className = 'heart-float';
@@ -830,7 +724,7 @@ function initializeYesPage() {
     }
   }, 500);
   
-  // Countdown calculator
+  // Countdown timer
   function updateCountdown() {
     const eventDate = new Date('2026-02-10T17:00:00');
     const now = new Date();
@@ -845,8 +739,11 @@ function initializeYesPage() {
   setInterval(updateCountdown, 60000);
 }
 
+// ============================================
+// INITIALIZE OF COURSE PAGE
+// ============================================
 function initializeOfCoursePage() {
-  // Create confetti
+  // Confetti effect
   setTimeout(() => {
     const colors = ['#ff4d88', '#ff85a2', '#ffc0cb', '#d63384', '#ff69b4', '#ffe4e1'];
     for (let i = 0; i < 80; i++) {
@@ -858,15 +755,15 @@ function initializeOfCoursePage() {
         confetti.style.left = Math.random() * 100 + 'vw';
         confetti.style.top = '-20px';
         const duration = 2 + Math.random() * 2;
-        confetti.style.animation = 'confetti-fall ' + duration + 's linear forwards';
-        confetti.style.transform = 'rotate(' + (Math.random() * 360) + 'deg)';
+        confetti.style.animation = `confetti-fall ${duration}s linear forwards`;
+        confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
         document.body.appendChild(confetti);
         setTimeout(() => confetti.remove(), 4000);
       }, i * 20);
     }
   }, 100);
   
-  // Animated floating hearts
+  // Floating hearts
   setInterval(() => {
     const heart = document.createElement('div');
     heart.className = 'heart-float';
