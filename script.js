@@ -22,6 +22,64 @@ function createHeart() {
 setInterval(createHeart, 300);
 
 // ============================================
+// HEART-SHAPED IMAGES BACKGROUND
+// ============================================
+const heartImagesContainer = document.getElementById("heartImagesContainer");
+
+// Add your image filenames here (place them in assets folder)
+const coupleImages = [
+  'assets/photo1.jpg',
+  'assets/photo2.jpg',
+  'assets/photo3.jpg',
+  'assets/photo4.jpg',
+];
+
+function createHeartImage() {
+  const heartImage = document.createElement("div");
+  heartImage.classList.add("heart-image");
+  
+  const img = document.createElement("img");
+  // Randomly select an image from the array
+  const randomImage = coupleImages[Math.floor(Math.random() * coupleImages.length)];
+  img.src = randomImage;
+  img.alt = "Couple Memory";
+  
+  // Random horizontal position
+  heartImage.style.left = Math.random() * 100 + "vw";
+  
+  // Random animation duration (12-18 seconds)
+  heartImage.style.animationDuration = (Math.random() * 6 + 12) + "s";
+  
+  // Random horizontal drift
+  const drift = (Math.random() - 0.5) * 200; // -100px to 100px
+  heartImage.style.setProperty('--drift', drift + 'px');
+  
+  // Random delay
+  heartImage.style.animationDelay = Math.random() * 5 + "s";
+  
+  // SMALLER size range: 200px to 350px
+  const size = 200 + Math.random() * 150;
+  heartImage.style.width = size + "px";
+  heartImage.style.height = size + "px";
+  
+  heartImage.appendChild(img);
+  heartImagesContainer.appendChild(heartImage);
+  
+  // Remove after animation completes
+  setTimeout(() => {
+    heartImage.remove();
+  }, 23000); // Max duration + delay
+}
+
+// Create heart images at intervals - REDUCED FREQUENCY
+setInterval(createHeartImage, 6000); // Create a new heart every 6 seconds (was 3)
+
+// Create initial batch - FEWER HEARTS
+for (let i = 0; i < 2; i++) {
+  setTimeout(() => createHeartImage(), i * 2000);
+}
+
+// ============================================
 // MUSIC CONTROL
 // ============================================
 const bgMusic = document.getElementById("bgMusic");

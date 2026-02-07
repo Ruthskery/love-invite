@@ -461,6 +461,104 @@ button:active {
   animation: floatUp 8s linear infinite;
 }
 
+/* Heart-shaped Image Background */
+.heart-images-container {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.heart-image {
+  position: absolute;
+  /* SMALLER SIZE: Changed from 600px to 400px */
+  width: 400px;
+  height: 400px;
+  animation: floatHeartImage 15s linear infinite;
+  opacity: 0;
+}
+
+.heart-image::before,
+.heart-image::after {
+  content: '';
+  position: absolute;
+  /* SMALLER SIZE: Adjusted proportionally */
+  width: 200px;
+  height: 320px;
+  background: transparent;
+  border-radius: 160px 160px 0 0;
+}
+
+.heart-image::before {
+  left: 100px;
+}
+
+.heart-image::after {
+  left: 0;
+  transform: rotate(-90deg);
+  transform-origin: 0 100%;
+}
+
+.heart-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+ clip-path: polygon(
+  50% 5%,
+  65% 0%,
+  85% 10%,
+  95% 30%,
+  90% 55%,
+  75% 75%,
+  50% 95%,
+  25% 75%,
+  10% 55%,
+  5% 30%,
+  15% 10%,
+  35% 0%
+);
+
+  filter: brightness(1.1) saturate(1.2);
+}
+
+@keyframes floatHeartImage {
+  0% { 
+    transform: translateY(100vh) translateX(0) scale(0.5); 
+    opacity: 0; 
+  }
+  10% { 
+    opacity: 0.9; 
+  }
+  90% { 
+    opacity: 0.9; 
+  }
+  100% { 
+    transform: translateY(-20vh) translateX(var(--drift)) scale(1.5);
+    opacity: 0; 
+  }
+}
+
+/* Smaller hearts for mobile */
+@media (max-width: 768px) {
+  .heart-image {
+    width: 220px;  /* Reduced from 280px */
+    height: 220px;
+  }
+}
+
+@media (max-width: 480px) {
+  .heart-image {
+    width: 170px;  /* Reduced from 220px */
+    height: 170px;
+  }
+}
+
+
 @keyframes floatUp {
   0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
   30% { opacity: 1; }
