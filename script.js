@@ -478,7 +478,7 @@ function getYesPageHTML() {
           <p class="details-text">
             <strong>📅 February 13, 2026</strong><br>
             <strong>⏰ 8:00 PM</strong><br>
-            <strong>📍 TBA</strong>
+            <strong>📍 Cache Coffee & Cocktails</strong>
           </p>
           
           <div class="countdown-section">
@@ -735,8 +735,7 @@ function getOfCoursePageHTML() {
           <div class="info-box">
             <p><strong>📅 February 13, 2026</strong></p>
             <p><strong>⏰ 8:00 PM </strong></p>
-            <p><strong>📍 TBA</strong></p>
-            <p><strong>👗 TBA</strong></p>
+            <p><strong>📍 Cache Coffee & Cocktails</strong></p>
           </div>
           
           <p class="details-text" style="font-size: 16px; color: #999;">
