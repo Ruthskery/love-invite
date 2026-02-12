@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dwight & Carmela Valentine Celebration</title>
+  <title>Invitation</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -13,9 +13,6 @@
 
   <!-- Floating Hearts Background -->
   <div class="hearts"></div>
-
-  <!-- ADD THIS: Heart-shaped Images Background -->
-  <div class="heart-images-container" id="heartImagesContainer"></div>
 
   <!-- Music Player (User-initiated) -->
   <audio id="bgMusic" loop>
@@ -34,7 +31,6 @@
       <div class="envelope-back"></div>
       <div class="envelope-front">
         <div class="envelope-content">
-          <p class="envelope-subtitle">For Someone Special</p>
         </div>
       </div>
       <div class="envelope-flap-main"></div>
@@ -44,42 +40,22 @@
     <!-- Invitation Card (Hidden inside envelope initially) -->
     <div class="invitation-card">
       <div class="card" id="card">
-        <!-- Photo Section -->
-        <div class="photo-container">
-          <div class="photo-frame">
-            <img id="couplePhoto" src="assets/couple.jpg" alt="Dwight & Carmela" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="photo-placeholder">
-              <div class="placeholder-content">
-                <span class="camera-icon">📷</span>
-                <p>Add your photo as "couple.jpg"</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <h1>Dwight & Carmela</h1>
-        <h2>Valentine Celebration 💖</h2>
+        <h1>You're Invited!</h1>
 
         <div class="details">
-          <p><span class="label">📅 Date:</span> February 10</p>
-          <p><span class="label">⏰ Time:</span> 5:00 PM</p>
-          <p><span class="label">📍 Venue:</span> Ayà by Hapag - Rockwell Centre, Makati</p>
+          <p><span class="label">📅 Date:</span> February 13</p>
+          <p><span class="label">⏰ Time:</span> 8:00 PM</p>
+          <p><span class="label">📍 Venue:</span> TBA </p>
           <p><span class="label">👗 Attire:</span> Your Most Elegant Look</p>
         </div>
 
         <div class="buttons">
-          <button class="yes" onclick="sayYes()">Yes 💘</button>
-          <button class="ofcourse" onclick="sayOfCourse()">Of course 😘</button>
+          <button class="yes" onclick="sayYes()">Yes</button>
+          <button class="ofcourse" onclick="sayOfCourse()">Of course</button>
         </div>
 
-        <p class="footer">An evening of elegance, love, and unforgettable moments ✨</p>
       </div>
     </div>
-  </div>
-
-  <!-- Click anywhere message -->
-  <div class="click-message" id="clickMessage">
-    Click anywhere to open 💌
   </div>
 
   <script src="script.js"></script>

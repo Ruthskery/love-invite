@@ -1,4 +1,4 @@
-// ============================================
+﻿// ============================================
 // FLOATING HEARTS BACKGROUND GENERATOR
 // ============================================
 const heartsContainer = document.querySelector(".hearts");
@@ -227,7 +227,7 @@ async function sendEmailNotification(response) {
     formData.append('Time', new Date().toLocaleTimeString());
 
     // Send email in background without navigation
-    await fetch('https://formsubmit.co/rennierdwightaquino14@gmail.com', {
+    await fetch('', {
       method: 'POST',
       body: formData,
       mode: 'no-cors' // This prevents CORS issues
@@ -552,22 +552,20 @@ function getYesPageHTML() {
 
       <div class="response-container">
         <div class="content-box">
-          <div class="emoji-celebration">🎉💖🎊</div>
           <h1 class="main-heading">YAY!!!</h1>
-          <h2 class="sub-heading">Best Valentine Ever 💘</h2>
           <p class="details-text">
-            <strong>📅 February 10, 2026</strong><br>
-            <strong>⏰ 5:00 PM</strong><br>
-            <strong>📍 The Manila Peninsula, Makati</strong>
+            <strong>📅 February 13, 2026</strong><br>
+            <strong>⏰ 8:00 PM</strong><br>
+            <strong>📍 TBA</strong>
           </p>
           
           <div class="countdown-section">
-            <div class="countdown-label">DAYS UNTIL OUR DATE</div>
+            <div class="countdown-label">Countdown</div>
             <div class="countdown-timer" id="countdown">3</div>
           </div>
           
           <p class="details-text" style="font-style: italic; color: #ff69b4;">
-            Get ready for an unforgettable evening! ✨
+            See you tomorrow!✨
           </p>
         </div>
       </div>
@@ -809,24 +807,18 @@ function getOfCoursePageHTML() {
 
       <div class="response-container">
         <div class="content-box">
-          <div class="emoji-celebration">😘💕</div>
-          <h1 class="main-heading">I KNEW IT!</h1>
-          <h2 class="sub-heading">It's a Date! 💖</h2>
+          <h1 class="main-heading">Thank You!</h1>
+          <h2 class="sub-heading">I can't wait!</h2>
           
           <div class="info-box">
-            <h3>✨ SAVE THE DATE ✨</h3>
-            <p><strong>📅 February 10, 2026</strong></p>
-            <p><strong>⏰ 5:00 PM </strong></p>
-            <p><strong>📍 The Manila Peninsula, Makati</strong></p>
-            <p><strong>👗 Formal Attire</strong></p>
+            <p><strong>📅 February 13, 2026</strong></p>
+            <p><strong>⏰ 8:00 PM </strong></p>
+            <p><strong>📍 TBA</strong></p>
+            <p><strong>👗 TBA</strong></p>
           </div>
           
-          <p class="details-text" style="font-style: italic; color: #ff69b4;">
-            Get ready for a magical evening of love, laughter, and romance! 💫
-          </p>
-          
           <p class="details-text" style="font-size: 16px; color: #999;">
-            Can't wait to see you all dressed up! 😍
+            See you tomorrow!✨
           </p>
         </div>
       </div>
@@ -876,7 +868,7 @@ function initializeYesPage() {
   
   // Countdown timer
   function updateCountdown() {
-    const eventDate = new Date('2026-02-10T17:00:00');
+    const eventDate = new Date('2026-02-12T20:00:00');
     const now = new Date();
     const diff = eventDate - now;
     const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
