@@ -157,28 +157,26 @@ document.head.appendChild(sparkleStyle);
 // ============================================
 async function sendEmailNotification(response) {
   try {
-    const formData = new FormData();
-    formData.append('_subject', `Response: ${response}`);
-    formData.append('_captcha', 'false');
-    formData.append('_template', 'table');
-    formData.append('Name', 'Eunice');
-    formData.append('Response', response);
-    formData.append('Date', new Date().toLocaleDateString());
-    formData.append('Time', new Date().toLocaleTimeString());
-
-    // Send email in background without navigation
-    await fetch('cysoftware02@gmail.com', {
-      method: 'POST',
-      body: formData,
-      mode: 'no-cors' // This prevents CORS issues
+    await fetch("https://formsubmit.co/ajax/cysoftware02@gmail.com", {
+      method: "POST",
+      headers: { 
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({
+        Name: "Eunice",
+        Response: response,
+        Date: new Date().toLocaleDateString(),
+        Time: new Date().toLocaleTimeString()
+      })
     });
-    
-    console.log('Email notification sent successfully');
+
+    console.log("Email sent successfully!");
   } catch (error) {
-    console.log('Email notification failed:', error);
-    // Continue with the animation even if email fails
+    console.log("Email failed:", error);
   }
 }
+
 
 // ============================================
 // BUTTON ACTIONS
