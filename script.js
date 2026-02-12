@@ -181,96 +181,62 @@ async function sendEmailNotification(response) {
 // ============================================
 // BUTTON ACTIONS
 // ============================================
-const MUSIC_FADE_OUT_MS = 450;
-const MUSIC_FADE_IN_MS = 900;
-const PAGE_TRANSITION_MS = 500;
-const MIN_FADE_START_VOLUME = 0.15;
-
-function fadeAudio(audio, fromVolume, toVolume, durationMs) {
-  return new Promise((resolve) => {
-    if (!audio || durationMs <= 0) {
-      resolve();
-      return;
-    }
-
-    const clampedFrom = Math.max(0, Math.min(1, fromVolume));
-    const clampedTo = Math.max(0, Math.min(1, toVolume));
-    const start = performance.now();
-    audio.volume = clampedFrom;
-
-    function step(now) {
-      const progress = Math.min((now - start) / durationMs, 1);
-      audio.volume = clampedFrom + (clampedTo - clampedFrom) * progress;
-
-      if (progress < 1) {
-        requestAnimationFrame(step);
-      } else {
-        resolve();
-      }
-    }
-
-    requestAnimationFrame(step);
-  });
-}
-
-function transitionToResponse(getPageHTML, initializePage) {
-  const musicElement = document.getElementById("bgMusic");
-  const hasMusic = !!musicElement;
-  const wasMusicPlaying = hasMusic && !musicElement.paused;
-  const savedTime = hasMusic ? musicElement.currentTime : 0;
-  const savedVolume = hasMusic ? musicElement.volume : 1;
-  const fadeInTargetVolume = Math.max(savedVolume, MIN_FADE_START_VOLUME);
-
-  if (wasMusicPlaying) {
-    fadeAudio(
-      musicElement,
-      savedVolume,
-      MIN_FADE_START_VOLUME,
-      MUSIC_FADE_OUT_MS
-    ).catch(() => {});
-  }
-
-  document.body.style.transition = `opacity ${PAGE_TRANSITION_MS}ms ease`;
-  document.body.style.opacity = "0";
-
-  setTimeout(() => {
-    document.body.innerHTML = getPageHTML();
-
-    if (wasMusicPlaying) {
-      const newMusic = document.getElementById("bgMusic");
-      if (newMusic) {
-        newMusic.currentTime = savedTime;
-        newMusic.volume = MIN_FADE_START_VOLUME;
-        newMusic.play()
-          .then(() =>
-            fadeAudio(
-              newMusic,
-              MIN_FADE_START_VOLUME,
-              fadeInTargetVolume,
-              MUSIC_FADE_IN_MS
-            )
-          )
-          .catch((err) => console.log("Music resume failed:", err));
-      }
-    }
-
-    document.body.style.opacity = "1";
-    initializePage();
-  }, PAGE_TRANSITION_MS);
-}
-
 function sayYes() {
   // Send email notification
   sendEmailNotification('YES!');
-
-  transitionToResponse(getYesPageHTML, initializeYesPage);
+  
+  // Preserve music state
+  const musicElement = document.getElementById("bgMusic");
+  const wasMusicPlaying = !musicElement.paused;
+  
+  // Show response page
+  document.body.style.transition = 'opacity 0.5s ease';
+  document.body.style.opacity = '0';
+  
+  setTimeout(() => {
+    document.body.innerHTML = getYesPageHTML();
+    
+    // Restore music
+    if (wasMusicPlaying) {
+      const newMusic = document.getElementById("bgMusic");
+      if (newMusic) {
+        newMusic.currentTime = musicElement.currentTime; // Continue from same position
+        newMusic.play().catch(err => console.log("Music resume failed:", err));
+      }
+    }
+    
+    document.body.style.opacity = '1';
+    initializeYesPage();
+  }, 500);
 }
 
 function sayOfCourse() {
   // Send email notification
   sendEmailNotification('OF COURSE!');
-
-  transitionToResponse(getOfCoursePageHTML, initializeOfCoursePage);
+  
+  // Preserve music state
+  const musicElement = document.getElementById("bgMusic");
+  const wasMusicPlaying = !musicElement.paused;
+  
+  // Show response page
+  document.body.style.transition = 'opacity 0.5s ease';
+  document.body.style.opacity = '0';
+  
+  setTimeout(() => {
+    document.body.innerHTML = getOfCoursePageHTML();
+    
+    // Restore music
+    if (wasMusicPlaying) {
+      const newMusic = document.getElementById("bgMusic");
+      if (newMusic) {
+        newMusic.currentTime = musicElement.currentTime; // Continue from same position
+        newMusic.play().catch(err => console.log("Music resume failed:", err));
+      }
+    }
+    
+    document.body.style.opacity = '1';
+    initializeOfCoursePage();
+  }, 500);
 }
 
 // ============================================
