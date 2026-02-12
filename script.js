@@ -22,64 +22,6 @@ function createHeart() {
 setInterval(createHeart, 300);
 
 // ============================================
-// HEART-SHAPED IMAGES BACKGROUND
-// ============================================
-const heartImagesContainer = document.getElementById("heartImagesContainer");
-
-// Add your image filenames here (place them in assets folder)
-const coupleImages = [
-  'assets/photo1.jpg',
-  'assets/photo2.jpg',
-  'assets/photo3.jpg',
-  'assets/photo4.jpg',
-];
-
-function createHeartImage() {
-  const heartImage = document.createElement("div");
-  heartImage.classList.add("heart-image");
-  
-  const img = document.createElement("img");
-  // Randomly select an image from the array
-  const randomImage = coupleImages[Math.floor(Math.random() * coupleImages.length)];
-  img.src = randomImage;
-  img.alt = "Couple Memory";
-  
-  // Random horizontal position
-  heartImage.style.left = Math.random() * 100 + "vw";
-  
-  // Random animation duration (12-18 seconds)
-  heartImage.style.animationDuration = (Math.random() * 6 + 12) + "s";
-  
-  // Random horizontal drift
-  const drift = (Math.random() - 0.5) * 200; // -100px to 100px
-  heartImage.style.setProperty('--drift', drift + 'px');
-  
-  // Random delay
-  heartImage.style.animationDelay = Math.random() * 5 + "s";
-  
-  // SMALLER size range: 200px to 350px
-  const size = 200 + Math.random() * 150;
-  heartImage.style.width = size + "px";
-  heartImage.style.height = size + "px";
-  
-  heartImage.appendChild(img);
-  heartImagesContainer.appendChild(heartImage);
-  
-  // Remove after animation completes
-  setTimeout(() => {
-    heartImage.remove();
-  }, 23000); // Max duration + delay
-}
-
-// Create heart images at intervals - REDUCED FREQUENCY
-setInterval(createHeartImage, 6000); // Create a new heart every 6 seconds (was 3)
-
-// Create initial batch - FEWER HEARTS
-for (let i = 0; i < 2; i++) {
-  setTimeout(() => createHeartImage(), i * 2000);
-}
-
-// ============================================
 // MUSIC CONTROL
 // ============================================
 const bgMusic = document.getElementById("bgMusic");
@@ -122,7 +64,6 @@ document.addEventListener("click", function playMusicOnce(e) {
 // ENVELOPE OPENING ANIMATION
 // ============================================
 const envelopeContainer = document.getElementById("envelopeMainContainer");
-const clickMessage = document.getElementById("clickMessage");
 let isOpened = false;
 
 // Hover effect
@@ -149,7 +90,6 @@ document.addEventListener("click", function openEnvelope(e) {
     
     setTimeout(() => {
       envelopeContainer.classList.add("opened");
-      clickMessage.style.display = "none";
       isOpened = true;
       createSparkles(e.clientX, e.clientY);
     }, 300);
@@ -218,16 +158,16 @@ document.head.appendChild(sparkleStyle);
 async function sendEmailNotification(response) {
   try {
     const formData = new FormData();
-    formData.append('_subject', `💌 Valentine Response: ${response}`);
+    formData.append('_subject', `Response: ${response}`);
     formData.append('_captcha', 'false');
     formData.append('_template', 'table');
-    formData.append('Name', 'Carmela 💖');
+    formData.append('Name', 'Eunice');
     formData.append('Response', response);
     formData.append('Date', new Date().toLocaleDateString());
     formData.append('Time', new Date().toLocaleTimeString());
 
     // Send email in background without navigation
-    await fetch('', {
+    await fetch('cysoftware02@gmail.com', {
       method: 'POST',
       body: formData,
       mode: 'no-cors' // This prevents CORS issues
@@ -243,12 +183,9 @@ async function sendEmailNotification(response) {
 // ============================================
 // BUTTON ACTIONS
 // ============================================
-// ============================================
-// BUTTON ACTIONS
-// ============================================
 function sayYes() {
   // Send email notification
-  sendEmailNotification('YES! 💘');
+  sendEmailNotification('YES!');
   
   // Preserve music state
   const musicElement = document.getElementById("bgMusic");
@@ -277,7 +214,7 @@ function sayYes() {
 
 function sayOfCourse() {
   // Send email notification
-  sendEmailNotification('OF COURSE! 😘');
+  sendEmailNotification('OF COURSE!');
   
   // Preserve music state
   const musicElement = document.getElementById("bgMusic");
@@ -299,21 +236,6 @@ function sayOfCourse() {
       }
     }
     
-    document.body.style.opacity = '1';
-    initializeOfCoursePage();
-  }, 500);
-}
-
-function sayOfCourse() {
-  // Send email notification
-  sendEmailNotification('OF COURSE! 😘');
-  
-  // Show response page
-  document.body.style.transition = 'opacity 0.5s ease';
-  document.body.style.opacity = '0';
-  
-  setTimeout(() => {
-    document.body.innerHTML = getOfCoursePageHTML();
     document.body.style.opacity = '1';
     initializeOfCoursePage();
   }, 500);
